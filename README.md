@@ -1,5 +1,5 @@
 # haios [ by haikent ]
-< documentation last update 10Dec2015 12:51 by Hitesh>
+< documentation last update 11Dec2015 8:24 by Hitesh>
 haios
     package:
        descriptor (written By Haikent)
@@ -9,12 +9,21 @@ haios
 
              LBPDescriptor:(radius)
                     f:describe(image) return features of image
-                          
+
        distance (written By Haikent)
           class
-            Distance:(imageA,imageB)
+            Distance:(imageA,imageB) # input Image A feature and ImageB feature
                    f:chi_distance(EQS_VALUE) return distance b/w 2 img feature
 
+       objects (written by Haikent)
+           class
+              Face:(scaleFactor=1.2,minNeighbors=5,minh=80,minw=80)
+                f:getFaces(image) #return list of faces in image
 
+       spider (written by Haikent)
+          class
+             DesktopSpider:(dir)
+                  ----thred class run as thread---
+            f:desktopSpiderThread(dir) return the given dir's all images path list       
 
 Final Year Project Image Search Engine ( Hitesh , Ashok , Dikshant ,Paras)

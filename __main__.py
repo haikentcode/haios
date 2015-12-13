@@ -2,72 +2,105 @@
 from descriptor import descriptor as des
 from distance import distance as dis
 from spider import spider
+from objects import objects
 import sys
 import cv2
+import threading
+import time
 
-def set(image):
-    # set image descriptor in database return type True / False
-    print "demo"
-    return True
+def hkresize(image):
+    r=500.0/image.shape[1]
+    dim=(500,int(image.shape[0]*r))
+    resize=cv2.resize(image,dim,interpolation=cv2.INTER_AREA)
+    return resize
 
-def get(imageA):
-    #def similar image from database return type image list with comp %
-    filelist = runSpider()
-    filelist = [x for x in filelist if x.endswith(".jpg")] # dir image list
-    matchList = []
-    for imageB in filelist:
-        d = compare(imageA,imageB)
-        print d
-        if d < 11:
-            matchList.append((imageB,d,))
-    matchList.sort()
-    return len(matchList)
+def hkimshow(title,image):
+        r=200.0/image.shape[1]
+        dim=(200,int(image.shape[0]*r))
+        resize=cv2.resize(image,dim,interpolation=cv2.INTER_AREA)
+        cv2.imshow(title,resize)
 
-def compare(imageA,imageB):
-    imgA = cv2.imread(imageA)
-    imgB = cv2.imread(imageB)
-    hk=False
-    if hk:
-       feature = des.LBPDescriptor(3)
-    else:
-       feature = des.ColorDescriptor((8,12,3))
-    f1 = feature.describe(imgA)
-    f2 = feature.describe(imgB)
+dirs=("/home/haikent/Pictures/",) #'/media/haikent/521686E01686C487/picture/'
 
-    distance = dis.Distance(f1,f2)
+class matching(threading.Thread):
+      key={}
+      result=[]
+      def __init__(self,image):
+          threading.Thread.__init__(self)
+          self.image=image
 
-    return distance.chi_distance()
+      def run(self):
+           try:
+               img=cv2.imread(self.image)
+               img=hkresize(img)
+               cd=des.ColorDescriptor((8,12,3))
+               f1=self.key["cd"]
+               f2=cd.describe(img)
+               distance=dis.Distance(f1,f2)
+               faceObj=objects.Face()
+               faceList=faceObj.getFaces(img)
+               fd=1
+               for face1 in self.key["faces"]:
+                   for face2 in faceList:
+                       lbp=des.LBPDescriptor(3)
+                       ff1=lbp.describe(face1)
+                       ff2=lbp.describe(face2)
+                       facedistance=dis.Distance(ff1,ff2)
+                       if facedistance.chi_distance() < 0.009 :
+                               fd+=1
+               #if fd > 1 :
+                #    hkimshow(str(distance.chi_distance()),img)
+               print distance.chi_distance(),fd
+               self.result.append((self.image,distance.chi_distance(),1.0/fd))
+           except :
+               print "error",self.image
 
 
-def runSpider():
-      dspid = spider.DesktopSpider()
-      dspid.run()
-      return dspid.filelist
+def desktopSearch(imgp):
+       image = cv2.imread(imgp)
+       image = hkresize(image)
+       cd=des.ColorDescriptor((8,12,3))
+       matching.key["cd"]=cd.describe(image)
 
-def help():
-    print "COMMAND ARGUMENT -- DISCRIPTION"
-    print "set imagePath -- for put image in database"
-    print "get imagePath -- for get similar imgage from database"
-    print "compare imageApathe imageBpathe -- for compare two image"
-    print "runSpider  -- for index folder image with "
+       faceObj=objects.Face()
+       matching.key["faces"]=faceObj.getFaces(image)
+       imlist=[]
+       for dir in dirs:
+           imlist+=spider.desktopSpiderThread(dir)
+
+       thrdlist=[]
+       print "scaning...."
+       i=0
+       for img in imlist:
+           th=matching(img)
+           thrdlist.append(th)
+           th.start()
+           time.sleep(0.01)
+
+       for  th in thrdlist:
+           th.join()
+       print "complete scan"
+       cv2.waitKey(0)
+       cv2.destroyAllWindows()
+       print matching.result
+
+
+
+
+
+
+
+
+
+
 
 
 def main():
-    #deal with passing command in arguent for __main__.py
-      if len(sys.argv) >1:
-          if sys.argv[1] == "set":
-               return set(sys.argv[2])
-          elif sys.argv[1] == "get":
-               return get(sys.argv[2])
-          elif sys.argv[1] == "compare" and len(sys.argv)>3:
-               return compare(sys.argv[2],sys.argv[3])
-          elif sys.argv[1] == "runSpider":
-               return runSpider()
-          else:
-              help()
-      else:
-           help()
+    if len(sys.argv) > 1:
+            desktopSearch(sys.argv[1])
+    else:
+        print "please provide image path"
 
-if __name__ == "__main__":
-        r=main()
-        print r
+
+if __name__ == '__main__':
+    main()
