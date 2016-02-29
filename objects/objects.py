@@ -4,6 +4,11 @@ import cv2
 def hello():
     print "You are In Objects package"
 
+class Text:
+     'Find Text In Image and Convrt into Text'
+     pass
+
+
 class Face:
     'Extracting Face From Image'
     def __init__(self,scaleFactor=1.2,minNeighbors=5,minh=80,minw=80):
@@ -14,6 +19,10 @@ class Face:
     def getFaces(self,image): #return face images list from image
         gimage=cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
         faceObj=cv2.CascadeClassifier('haios/objects/xmldata/haarcascade_frontalface_default.xml')
+        return self.getData(gimage,faceObj)
+
+    def getSmileFaceByGRAY(self,gimage):
+        faceObj=cv2.CascadeClassifier('haios/objects/xmldata/haarcascade_smile.xml')
         return self.getData(gimage,faceObj)
 
     def getSmileFace(self,image):

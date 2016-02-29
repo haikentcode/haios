@@ -1,8 +1,6 @@
 # haios [ by haikent ]
 < documentation last update 27Dec2015 8:24 by Hitesh>
 haios
-
-````python
     package:
        descriptor (written By Haikent)
            class
@@ -29,5 +27,5 @@ haios
              DesktopSpider:(dir)
                   ----thred class run as thread---
             f:desktopSpiderThread(dir) return the given dir's all images path list       
-```
+
 Final Year Project Image Search Engine ( Hitesh , Ashok , Dikshant ,Paras)

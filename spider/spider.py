@@ -46,8 +46,6 @@ def desktopSpiderThread(dir):
     for th in DesktopSpider.threadList: # wait untill alll thred copleted
                     th.join()
     imageList=DesktopSpider.filelist # get collected file list by spider
-
-
     return imageList
 
 

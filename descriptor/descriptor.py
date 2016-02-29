@@ -16,8 +16,6 @@ from skimage.feature import local_binary_pattern as LBP
 # To calculate a normalized histogram
 from scipy.stats import itemfreq
 
-
-
 """
 ABOUT LBP Descriptor -- @source:http://hanzratech.in/2015/05/30/local-binary-patterns.html
 =======STEP=====

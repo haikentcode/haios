@@ -7,10 +7,11 @@ import sys
 import cv2
 import threading
 import time
+import random
 
 def hkresize(image):
-    r=500.0/image.shape[1]
-    dim=(500,int(image.shape[0]*r))
+    r=100.0/image.shape[1]
+    dim=(100,int(image.shape[0]*r))
     resize=cv2.resize(image,dim,interpolation=cv2.INTER_AREA)
     return resize
 
@@ -20,7 +21,7 @@ def hkimshow(title,image):
         resize=cv2.resize(image,dim,interpolation=cv2.INTER_AREA)
         cv2.imshow(title,resize)
 
-dirs=("/home/haikent/Pictures/",) #'/media/haikent/521686E01686C487/picture/'
+dirs=("/home/haikent/Pictures/lalla",) #'/media/haikent/521686E01686C487/picture/'
 
 class matching(threading.Thread):
       key={}
@@ -37,10 +38,10 @@ class matching(threading.Thread):
                f1=self.key["cd"]
                f2=cd.describe(img)
                distance=dis.Distance(f1,f2)
-               faceObj=objects.Face()
-               faceList=faceObj.getFaces(img)
+               """faceObj=objects.Face()
+               faceList=faceObj.getFaces(img)"""
                fd=1
-               for face1 in self.key["faces"]:
+               """for face1 in self.key["faces"]:
                    for face2 in faceList:
                        lbp=des.LBPDescriptor(3)
                        ff1=lbp.describe(face1)
@@ -49,10 +50,10 @@ class matching(threading.Thread):
                        if facedistance.chi_distance() < 0.009 :
                                fd+=1
                #if fd > 1 :
-                #    hkimshow(str(distance.chi_distance()),img)
+                #    hkimshow(str(distance.chi_distance()),img)"""
                print distance.chi_distance(),fd
                self.result.append((self.image,distance.chi_distance(),1.0/fd))
-           except :
+           except:
                print "error",self.image
 
 
@@ -67,7 +68,7 @@ def desktopSearch(imgp):
        imlist=[]
        for dir in dirs:
            imlist+=spider.desktopSpiderThread(dir)
-
+       print imlist
        thrdlist=[]
        print "scaning...."
        i=0
@@ -85,22 +86,12 @@ def desktopSearch(imgp):
        print matching.result
 
 
-
-
-
-
-
-
-
-
-
-
 def main():
     if len(sys.argv) > 1:
             desktopSearch(sys.argv[1])
+            #print cv2.imread("haios/image/smile.jpg")
     else:
         print "please provide image path"
-
 
 if __name__ == '__main__':
     main()
