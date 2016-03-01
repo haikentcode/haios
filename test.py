@@ -6,8 +6,8 @@ from objects import objects
 import sys
 import cv2
 
-sampleImage1=cv2.imread("haios/image/sampleImage1.jpg")
-sampleImage2=cv2.imread("haios/image/sampleImage2.jpg")
+sampleImage1=cv2.imread("./image/sampleImage1.jpg")
+sampleImage2=cv2.imread("./image/sampleImage1.jpg")
 
 def testSpider():
      dir="/home/haikent/Pictures/"
@@ -29,10 +29,11 @@ def testDistance():
 
 
 def testObjects():
-        faceObj=objects.Face(1.6,3,20,20) #1.1,3,20,20
+        faceObj=objects.Face(1.1,3,20,20) #1.1,3,20,20 #1.6,3,20,20
         sfaceObj=objects.Face(1.5,5,80,80) #1.5,20,40,40
         faceList=faceObj.getFaces(sampleImage1)
         smileFacelist=[]
+        print faceObj
         for face in faceList:
             smileFacelist+=sfaceObj.getSmileFaceByGRAY(face)
         i=0
