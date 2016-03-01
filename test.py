@@ -6,12 +6,15 @@ from objects import objects
 import sys
 import cv2
 
+import getpass # for getting user name by using getpass.getuser()
+
 sampleImage1=cv2.imread("./image/sampleImage1.jpg")
 sampleImage2=cv2.imread("./image/sampleImage1.jpg")
 
 def testSpider():
-     dir="/home/haikent/Pictures/"
-     return spider.desktopSpiderThread(dir)
+     dir="/home/"+getpass.getuser()+"/"
+     imagesList=spider.desktopSpiderThread(dir)
+     return imagesList
 
 def testDescriptor():
        lpbd=des.LBPDescriptor(3)
