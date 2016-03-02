@@ -26,38 +26,7 @@
 
 <div class="container">
   <div class="row">
-   <h1>haikent love {{name}}</h1>
-      <p id="time">{{time}}</p>
-   <div class="form-group">
-
-       <div class="col-sm-2">
-          <input type="text" class="form-control" id="expr">
-       </div>
-       <div class="col-sm-1">
-         <button class="btn btn-info" id="calculate">calculate</button>
-       </div>
-
-       <div class="col-sm-4">
-          <input type="text"  class="form-control" id="result" />
-        </div>
-        </form>
-    </div>
-  </div>
-<br/>
-   <div class="row">
-     <div class="col-sm-5">
-       <img src="media/demo.png" class="img-circle" width="400px" height="300px">
-     </div>
-
-     <div class="col-sm-5">
-       <form action="." method="post">
-             {% csrf_token %}
-           {{ feedBackForm.as_p }}
-           <p><input class="btn btn-info" type="submit" value="Send"></p>
-       </form>
-     </div>
-   </div>
-<br/>
+   <h1>{{name}}</h1>
    <div class="row">
       <form id="hkform">
        <div class="col-sm-3">
@@ -66,6 +35,13 @@
        </div>
       </form>
    </div>
+
+ <br/>
+
+  <div class="row">
+     <div id="resultImages">   </div>
+  </div>
+
 </div>
 
    <script>
@@ -76,13 +52,16 @@
     });
 
     $(":file").change(function(){
-      alert()
       var fd = new FormData(document.querySelector("#hkform"));
       fd.append("CustomField", "This is some extra data");
+      $("#resultImages").html("Uploading .....")
       $.ajax({
       url: "/upload/",
       type: "POST",
       data: fd,
+      success: function(data){
+            $("#resultImages").html(data)
+         },
       processData: false,  // tell jQuery not to process the data
       contentType: false   // tell jQuery not to set contentType
       });
@@ -101,4 +80,5 @@
 
        });
    </script>
+
 {% endblock %}

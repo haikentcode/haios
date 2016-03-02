@@ -1,0 +1,22 @@
+{% extends 'home/base.html' %}
+
+{% block title %}
+   Haios Result
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+
+  <div class="row">
+    {% for image in similarImagesList %}
+       <div class="col-sm-3">
+       <img src="{{image}}" class="img-circle" width="250px" height="150px">
+      </div>
+    {% endfor %}
+  </div>
+
+
+</div>
+{% endblock %}
