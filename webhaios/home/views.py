@@ -32,6 +32,14 @@ import cv2
 import getpass
 import os
 
+#database
+from pymongo import MongoClient
+client = MongoClient()
+db = client.haios
+coll = db.sampleImages
+
+
+
 
 def handle_uploaded_file(f,name):
     ext=str(name.split(".").pop())
@@ -43,34 +51,20 @@ def handle_uploaded_file(f,name):
     return imagePath
 
 
-def  checkDistance(img1,img2):
-       sampleImage1=cv2.imread(img1)
-       sampleImage2=cv2.imread(img2)
-       if sampleImage2==None or sampleImage1==None:
-           return 100
-       cd=des.ColorDescriptor((8,18,3))
-       f1=cd.describe(sampleImage1)
-       f2=cd.describe(sampleImage2)
-       distance=dis.Distance(f1,f2)
-       return distance.chi_distance()
-
-
 def getSimilarImages(imagePath): # pass image path to get list of similar images path and urls
-       mdir="media/sampleData/"
+       images=coll.find()
+       cdObj=des.ColorDescriptor((8,12,3)) #8,12,3
+       img1=cv2.imread(imagePath)
+       f1=cdObj.describe(img1)
        similarImagesList=[]
-       for name in os.listdir(mdir):
-           try:
-               path=os.path.join(mdir,name)
-               if os.path.isfile(path):
-                   if spider.fileIsImage(path):
-                       dist=checkDistance(path,imagePath)
-                       if  dist < 10 :
-                           print path
-                           similarImagesList.append((dist,path))
-           except:
-               print "error in scanDir"
+       for imgdata in images:
+           path=imgdata["path"]
+           f2=eval(imgdata["cd"])
+           distance=dis.Distance(f1,f2)
+           dist=distance.chi_distance()
+           print path,dist
+           similarImagesList.append((dist,path))
        similarImagesList.sort()
-       print similarImagesList
        similarImagesList=[img[1] for img in similarImagesList]
        return similarImagesList
 
