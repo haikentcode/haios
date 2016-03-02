@@ -3,6 +3,13 @@
 haios
 
 ````python
+
+    GUI:
+      desktophaios(written BY Dikshant):
+
+      webhaios(written By Haikent):
+          #Django Application
+          
     package:
        descriptor (written By Haikent)
            class
