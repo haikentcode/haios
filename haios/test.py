@@ -13,12 +13,12 @@ sampleImage2=cv2.imread("./image/sampleImage1.jpg")
 
 def testSpider():
      dir="/home/"+getpass.getuser()+"/Pictures"
-     imagesList=spider.desktopSpiderThread(dir)
+     imagesList=spider.scanDir(dir)
      return imagesList
 
 def testDescriptor():
        lpbd=des.LBPDescriptor(3)
-       cd=des.ColorDescriptor((8,12,3))
+       cd=des.ColorDescriptor((10,15,5))
        return (lpbd.describe(sampleImage1),cd.describe(sampleImage1))
 
 
