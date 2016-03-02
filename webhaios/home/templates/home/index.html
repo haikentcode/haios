@@ -1,0 +1,104 @@
+{% extends 'home/base.html' %}
+
+
+   {% block title %}
+     haikent
+   {% endblock %}
+
+   {% block head %}
+     <script type="text/javascript">
+
+     function updatetime(){
+     $.get( "/gettime", function( data ) {
+                 $( "#time" ).html(data);
+                 t=setTimeout(updatetime,1000);
+             });
+     }
+
+    updatetime();
+
+     </script>
+   {% endblock %}
+
+
+{% block body %}
+
+
+<div class="container">
+  <div class="row">
+   <h1>haikent love {{name}}</h1>
+      <p id="time">{{time}}</p>
+   <div class="form-group">
+
+       <div class="col-sm-2">
+          <input type="text" class="form-control" id="expr">
+       </div>
+       <div class="col-sm-1">
+         <button class="btn btn-info" id="calculate">calculate</button>
+       </div>
+
+       <div class="col-sm-4">
+          <input type="text"  class="form-control" id="result" />
+        </div>
+        </form>
+    </div>
+  </div>
+<br/>
+   <div class="row">
+     <div class="col-sm-5">
+       <img src="media/demo.png" class="img-circle" width="400px" height="300px">
+     </div>
+
+     <div class="col-sm-5">
+       <form action="." method="post">
+             {% csrf_token %}
+           {{ feedBackForm.as_p }}
+           <p><input class="btn btn-info" type="submit" value="Send"></p>
+       </form>
+     </div>
+   </div>
+<br/>
+   <div class="row">
+      <form id="hkform">
+       <div class="col-sm-3">
+         <input type="file" style="display:none" class="btn btn-info" name="file" id="imageUpload">
+         <input type="button" class="btn btn-info" value="uploadImage" id="uploadImage">
+       </div>
+      </form>
+   </div>
+</div>
+
+   <script>
+
+    $("#uploadImage").click(function(){
+      alert()
+      $("#imageUpload").trigger('click');
+    });
+
+    $(":file").change(function(){
+      alert()
+      var fd = new FormData(document.querySelector("#hkform"));
+      fd.append("CustomField", "This is some extra data");
+      $.ajax({
+      url: "/upload/",
+      type: "POST",
+      data: fd,
+      processData: false,  // tell jQuery not to process the data
+      contentType: false   // tell jQuery not to set contentType
+      });
+
+    });
+
+
+
+       $("#calculate").click(function(){
+             expr=$("#expr").val();
+             $("#result").val("processing");
+             $.post("/calculate/",{expr:expr}).done(function(data){
+                $("#result").val(data);
+
+            });
+
+       });
+   </script>
+{% endblock %}
