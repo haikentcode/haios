@@ -7,5 +7,5 @@ setup(name='haios',
       author='HITESH KUMAR REGAR (haikent)',
       author_email='hiteshnitj16@gmail.com',
       license='MIT',
-      packages=['descriptor','distance'],
+      packages=['descriptor','distance','spider','objects'],
       zip_safe=False)

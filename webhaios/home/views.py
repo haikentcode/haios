@@ -19,10 +19,18 @@ _dictionary_undefined          warnings
 """
 from django.views.decorators.csrf import csrf_exempt
 from froms import FeedBack,Student
-# Create your views here.
-
 import datetime
 import time
+
+#haios package
+from descriptor import descriptor as des
+from distance import distance as dis
+from spider import spider
+from objects import objects
+import sys
+import cv2
+
+
 def handle_uploaded_file(f,name):
     ext=str(name.split(".").pop())
     name=str(time.time()).replace(".","")
