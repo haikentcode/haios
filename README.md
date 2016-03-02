@@ -9,8 +9,8 @@ haios
 
       webhaios(written By Haikent):
           #Django Application
-          
-    package:
+
+    PACKAGE:
        descriptor (written By Haikent)
            class
              ColorDescriptor:(bins)
