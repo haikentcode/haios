@@ -62,8 +62,9 @@ def getSimilarImages(imagePath): # pass image path to get list of similar images
            f2=eval(imgdata["cd"])
            distance=dis.Distance(f1,f2)
            dist=distance.chi_distance()
-           print path,dist
-           similarImagesList.append((dist,path))
+           if dist <=10 :
+               similarImagesList.append((dist,path))
+           print path,dist       
        similarImagesList.sort()
        similarImagesList=[img[1] for img in similarImagesList]
        return similarImagesList
