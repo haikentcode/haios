@@ -37,4 +37,4 @@ haios
                   ----thred class run as thread---
             f:desktopSpiderThread(dir) return the given dir's all images path list       
 ```
-Final Year Project Image Search Engine ( Hitesh , Ashok , Dikshant ,Paras)
+Image Search Engine (Final Year Project)
