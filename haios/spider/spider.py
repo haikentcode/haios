@@ -5,21 +5,9 @@ import re
 import thread
 import time
 import threading
-""""
+"""
 issue
-
-this is not
-
-work properly
-
-
-some image are repeated
-
-find the resion :::::::::::::::::::::::::::::::::::
-
-f**************
-
-""""
+"""
 class DesktopSpider(threading.Thread):
     filelist=[] #contain list of images path  for give folder path
     threadList=[] #running thread list
