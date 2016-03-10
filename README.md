@@ -1,9 +1,24 @@
 # haios [ by haikent ]
-< documentation last update 2March2016 7:57 PM by Hitesh>
-haios
+
+
+###how to use
+```python
+#for local data
+1.store the sample images at location "/haios/webhaios/media/sampleData"
+2.now you have installed Open-CV and Django in your system
+3.go to location /haios/webhaios/ 
+4.start the server using command "python manage.py runserver"
+5.now application run on "https://localhost:8000" open in browser
+6.now upload image to find similar image
+#for online data
+ ........comming soon
+ 
+````
+
+
 
 ````python
-
+   haios/
     GUI:
       desktophaios(written BY Dikshant):
 
