@@ -4,7 +4,7 @@
 ###how to use
 ```python
 #for local data
-1.store the sample images at location "/haios/webhaios/media/sampleData"
+1.store the sample images at location "/haios/webhaios/media/sampleData" and run "webhaios/media/thisDirToMongodb.py"
 2.now you have installed Open-CV and Django in your system
 3.go to location /haios/webhaios/ 
 4.start the server using command "python manage.py runserver"
